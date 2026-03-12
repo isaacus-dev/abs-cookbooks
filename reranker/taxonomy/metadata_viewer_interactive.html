@@ -1,0 +1,804 @@
+<div class="mv-root">
+  <style>
+    .mv-root {
+      --bg: #f7f9fc;
+      --surface: #ffffff;
+      --surface-2: #fafcff;
+      --border: #e6ecf3;
+      --text: #132033;
+      --muted: #68768b;
+      --muted-2: #94a0b3;
+      --blue: #255cff;
+      --blue-soft: #eef4ff;
+      --danger-soft: #fff1f2;
+      --danger: #be3455;
+      --shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      color: var(--text);
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .mv-shell {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .mv-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .mv-header h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+    }
+
+    .mv-header p {
+      margin: 2px 0 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .mv-header-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .mv-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: #2448b6;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .mv-btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 9px 12px;
+      background: #f2f5fa;
+      color: #4f6075;
+      font-size: 12px;
+      font-weight: 650;
+      cursor: pointer;
+      transition: transform .12s ease, background .12s ease;
+    }
+
+    .mv-btn:hover { transform: translateY(-1px); }
+    .mv-btn-primary { background: var(--blue); color: white; }
+
+    .mv-table-wrap {
+      overflow: auto;
+      max-height: 430px;
+      min-height: 280px;
+      background: var(--bg);
+    }
+
+    .mv-table {
+      width: 100%;
+      min-width: 1200px;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
+      background: var(--surface);
+    }
+
+    .mv-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 12px;
+      text-align: left;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .mv-table tbody tr:hover { background: #f9fbff; }
+
+    .mv-table td {
+      position: relative;
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      font-size: 13px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      background: transparent;
+    }
+
+    .mv-title {
+      font-weight: 650;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+    }
+
+    .mv-title:hover { color: var(--blue); }
+    .mv-link { color: #1e4ed1; cursor: pointer; font-weight: 500; }
+    .mv-link:hover { text-decoration: underline; }
+    .mv-empty { color: var(--muted-2); }
+    .mv-muted { color: var(--muted); }
+
+    .mv-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #eef3f8;
+      color: #44556a;
+      font-size: 12px;
+      font-weight: 500;
+      margin: 0 6px 6px 0;
+    }
+
+    .mv-category {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: #2448b6;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .mv-actions {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity .12s ease;
+    }
+
+    .mv-table td:hover .mv-actions { opacity: 1; }
+
+    .mv-icon {
+      width: 24px;
+      height: 24px;
+      border: 0;
+      border-radius: 10px;
+      background: #f3f6fa;
+      color: #556577;
+      cursor: pointer;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .mv-delete {
+      width: 24px;
+      height: 24px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--danger-soft);
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .mv-file-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mv-file-name {
+      min-width: 0;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mv-overlay {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(10, 15, 24, 0.18);
+      z-index: 20;
+      box-sizing: border-box;
+    }
+
+    .mv-overlay.open { display: flex; }
+
+    .mv-modal {
+      width: min(1000px, 100%);
+      max-height: 88%;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 24px 80px rgba(15,23,42,.18);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mv-modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .mv-modal-head h4 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+    }
+
+    .mv-modal-close {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 999px;
+      background: #f2f5fa;
+      color: #556577;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .mv-modal-body {
+      padding: 16px;
+      overflow: auto;
+      background: var(--surface);
+    }
+
+    .mv-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .mv-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px;
+      background: var(--surface-2);
+    }
+
+    .mv-card-title {
+      font-size: 13px;
+      font-weight: 650;
+      margin-bottom: 8px;
+    }
+
+    .mv-card-text {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #334156;
+      white-space: pre-wrap;
+    }
+
+    .mv-doc-frame {
+      width: 100%;
+      height: 60vh;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fafcff;
+    }
+
+    .mv-map-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 14px;
+    }
+
+    .mv-map-list {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface-2);
+      padding: 10px;
+      overflow: auto;
+      max-height: 52vh;
+    }
+
+    .mv-map-list button {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      padding: 10px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font: inherit;
+      color: var(--text);
+    }
+
+    .mv-map-list button:hover,
+    .mv-map-list button.active {
+      background: #eef4ff;
+      color: #2448b6;
+    }
+
+    .mv-map-frame {
+      width: 100%;
+      height: 52vh;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fafcff;
+    }
+
+    .mv-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mv-form label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .mv-form input,
+    .mv-form textarea,
+    .mv-form select {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #d9e2ec;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .mv-form textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .mv-form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .mv-pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    @media (max-width: 860px) {
+      .mv-map-layout {
+        grid-template-columns: 1fr;
+      }
+      .mv-map-list { max-height: 180px; }
+    }
+  </style>
+
+  <div class="mv-shell">
+    <div class="mv-header">
+      <div>
+        <h3>Document metadata</h3>
+        <p>Interactive viewer for preview, maps, terms, signatures, edits, and row deletion.</p>
+      </div>
+      <div class="mv-header-right">
+        <span class="mv-pill" id="mv-count-pill">0 documents</span>
+        <button class="mv-btn" type="button" id="mv-export-btn">Export JSON</button>
+      </div>
+    </div>
+
+    <div class="mv-table-wrap">
+      <table class="mv-table">
+        <thead>
+          <tr>
+            <th style="width: 27%;">Title</th>
+            <th style="width: 16%;">Parties</th>
+            <th style="width: 13%;">Locations</th>
+            <th style="width: 14%;">Terms</th>
+            <th style="width: 12%;">Signatures</th>
+            <th style="width: 10%;">Date</th>
+            <th style="width: 8%;">File</th>
+          </tr>
+        </thead>
+        <tbody id="mv-body"></tbody>
+      </table>
+    </div>
+
+    <div class="mv-overlay" id="mv-overlay">
+      <div class="mv-modal">
+        <div class="mv-modal-head">
+          <h4 id="mv-modal-title">Details</h4>
+          <button type="button" class="mv-modal-close" id="mv-modal-close">×</button>
+        </div>
+        <div class="mv-modal-body" id="mv-modal-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" id="mv-data-json">__DATA_JSON__</script>
+  <script type="application/json" id="mv-category-options-json">__CATEGORY_OPTIONS__</script>
+
+  <script>
+    (function () {
+      const root = document.currentScript.closest(".mv-root");
+      const tbody = root.querySelector("#mv-body");
+      const overlay = root.querySelector("#mv-overlay");
+      const modalTitle = root.querySelector("#mv-modal-title");
+      const modalBody = root.querySelector("#mv-modal-body");
+      const closeBtn = root.querySelector("#mv-modal-close");
+      const exportBtn = root.querySelector("#mv-export-btn");
+      const countPill = root.querySelector("#mv-count-pill");
+
+      let records = JSON.parse(root.querySelector("#mv-data-json").textContent);
+      const categoryOptions = JSON.parse(root.querySelector("#mv-category-options-json").textContent);
+
+      function esc(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function categoryLabel(record) {
+        return record.category && record.category.label ? record.category.label : "";
+      }
+
+      function shortList(items, maxItems) {
+        const arr = Array.isArray(items) ? items : [];
+        if (!arr.length) return '<span class="mv-empty">—</span>';
+        const shown = arr.slice(0, maxItems).map(esc).join(", ");
+        return arr.length > maxItems ? shown + ' <span class="mv-muted">+' + (arr.length - maxItems) + '</span>' : shown;
+      }
+
+      function termSummary(terms) {
+        const arr = Array.isArray(terms) ? terms : [];
+        if (!arr.length) return '<span class="mv-empty">—</span>';
+        const names = arr.map(t => t && t.name ? t.name : "Unnamed term");
+        const shown = names.slice(0, 2).map(esc).join(", ");
+        return names.length > 2 ? shown + ' <span class="mv-muted">+' + (names.length - 2) + '</span>' : shown;
+      }
+
+      function sigSummary(signatures) {
+        const arr = Array.isArray(signatures) ? signatures : [];
+        if (!arr.length) return '<span class="mv-empty">—</span>';
+        const first = esc(arr[0]);
+        return arr.length > 1 ? first + ' <span class="mv-muted">+' + (arr.length - 1) + '</span>' : first;
+      }
+
+      function openModal(title, html) {
+        modalTitle.textContent = title;
+        modalBody.innerHTML = html;
+        overlay.classList.add("open");
+      }
+
+      function closeModal() {
+        overlay.classList.remove("open");
+      }
+
+      function updateHeader() {
+        countPill.textContent = records.length + (records.length === 1 ? " document" : " documents");
+      }
+
+      function renderRows() {
+        updateHeader();
+
+        if (!records.length) {
+          tbody.innerHTML = '<tr><td colspan="7" style="padding:26px 16px; color:#94a0b3;">No documents loaded.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = records.map((record, i) => {
+          const title = record.pretty_title || record.title || record.source_name || "Untitled";
+          const fileName = record.source_name || "Untitled";
+          const parties = record.parties || [];
+          const locations = record.locations || [];
+
+          return `
+            <tr data-row="${i}">
+              <td>
+                <div class="mv-title" data-action="preview" data-row="${i}">${esc(title)}</div>
+                <div class="mv-category">${esc(categoryLabel(record) || "—")}</div>
+                <div class="mv-actions">
+                  <button class="mv-icon" type="button" title="Edit title" data-action="edit-text" data-row="${i}" data-field="pretty_title">✎</button>
+                  <button class="mv-icon" type="button" title="Edit category" data-action="edit-category" data-row="${i}">▾</button>
+                </div>
+              </td>
+              <td>
+                <div class="mv-link" data-action="toggle-parties" data-row="${i}">${shortList(parties, 2)}</div>
+                ${record._parties_expanded ? `<div style="margin-top:8px;">${parties.map(p => `<span class="mv-chip">${esc(p)}</span>`).join("")}</div>` : ""}
+                <div class="mv-actions">
+                  <button class="mv-icon" type="button" title="Edit parties" data-action="edit-list" data-row="${i}" data-field="parties">✎</button>
+                </div>
+              </td>
+              <td>
+                <div class="mv-link" data-action="open-locations" data-row="${i}">${shortList(locations, 2)}</div>
+                <div class="mv-actions">
+                  <button class="mv-icon" type="button" title="Edit locations" data-action="edit-list" data-row="${i}" data-field="locations">✎</button>
+                </div>
+              </td>
+              <td>
+                <div class="mv-link" data-action="open-terms" data-row="${i}">${termSummary(record.terms)}</div>
+              </td>
+              <td>
+                <div class="mv-link" data-action="open-signatures" data-row="${i}">${sigSummary(record.signatures)}</div>
+              </td>
+              <td>
+                <div>${esc(record.date || "—")}</div>
+                <div class="mv-actions">
+                  <button class="mv-icon" type="button" title="Edit date" data-action="edit-date" data-row="${i}">✎</button>
+                </div>
+              </td>
+              <td>
+                <div class="mv-file-row">
+                  <div class="mv-file-name" title="${esc(fileName)}">${esc(fileName)}</div>
+                  <button class="mv-delete" type="button" title="Delete file" data-action="delete-row" data-row="${i}">×</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      function openTextEditor(rowIndex, field, label, multiline) {
+        const record = records[rowIndex];
+        const current = record[field] || "";
+        openModal("Edit " + label, `
+          <div class="mv-form">
+            <label>${esc(label)}</label>
+            ${multiline
+              ? `<textarea id="mv-editor-input">${esc(Array.isArray(current) ? current.join("\n") : current)}</textarea>`
+              : `<input id="mv-editor-input" type="text" value="${esc(current)}" />`
+            }
+            <div class="mv-form-actions">
+              <button class="mv-btn" type="button" id="mv-cancel-btn">Cancel</button>
+              <button class="mv-btn mv-btn-primary" type="button" id="mv-save-btn">Save</button>
+            </div>
+          </div>
+        `);
+
+        modalBody.querySelector("#mv-cancel-btn").onclick = closeModal;
+        modalBody.querySelector("#mv-save-btn").onclick = function () {
+          const value = modalBody.querySelector("#mv-editor-input").value;
+          if (field === "parties" || field === "locations") {
+            record[field] = value.split(/\n|,/).map(v => v.trim()).filter(Boolean);
+          } else {
+            record[field] = value;
+          }
+          closeModal();
+          renderRows();
+        };
+      }
+
+      function openCategoryEditor(rowIndex) {
+        const record = records[rowIndex];
+        const current = categoryLabel(record);
+        openModal("Edit category", `
+          <div class="mv-form">
+            <label>Category</label>
+            <select id="mv-category-select">
+              ${categoryOptions.map(opt => `<option value="${esc(opt)}" ${opt === current ? "selected" : ""}>${esc(opt)}</option>`).join("")}
+            </select>
+            <div class="mv-form-actions">
+              <button class="mv-btn" type="button" id="mv-cancel-btn">Cancel</button>
+              <button class="mv-btn mv-btn-primary" type="button" id="mv-save-btn">Save</button>
+            </div>
+          </div>
+        `);
+
+        modalBody.querySelector("#mv-cancel-btn").onclick = closeModal;
+        modalBody.querySelector("#mv-save-btn").onclick = function () {
+          record.category = Object.assign({}, record.category || {}, {
+            label: modalBody.querySelector("#mv-category-select").value
+          });
+          closeModal();
+          renderRows();
+        };
+      }
+
+      function openDateEditor(rowIndex) {
+        const record = records[rowIndex];
+        openModal("Edit date", `
+          <div class="mv-form">
+            <label>Date</label>
+            <input id="mv-date-input" type="date" value="${esc(record.date || "")}" />
+            <div class="mv-form-actions">
+              <button class="mv-btn" type="button" id="mv-cancel-btn">Cancel</button>
+              <button class="mv-btn mv-btn-primary" type="button" id="mv-save-btn">Save</button>
+            </div>
+          </div>
+        `);
+
+        modalBody.querySelector("#mv-cancel-btn").onclick = closeModal;
+        modalBody.querySelector("#mv-save-btn").onclick = function () {
+          record.date = modalBody.querySelector("#mv-date-input").value;
+          closeModal();
+          renderRows();
+        };
+      }
+
+      function openPreview(rowIndex) {
+        const record = records[rowIndex];
+        const title = record.pretty_title || record.title || record.source_name || "Untitled";
+
+        if (record._preview_base64 && record._mime_type === "application/pdf") {
+          openModal(title, `<iframe class="mv-doc-frame" src="data:${record._mime_type};base64,${record._preview_base64}"></iframe>`);
+          return;
+        }
+
+        if (record._text_excerpt) {
+          openModal(title, `
+            <div class="mv-card">
+              <div class="mv-card-title">Preview excerpt</div>
+              <div class="mv-card-text">${esc(record._text_excerpt)}</div>
+            </div>
+          `);
+          return;
+        }
+
+        openModal(title, `
+          <div class="mv-card">
+            <div class="mv-card-title">Preview unavailable</div>
+            <div class="mv-card-text">No preview payload was provided for this file.</div>
+          </div>
+        `);
+      }
+
+      function openLocations(rowIndex) {
+        const record = records[rowIndex];
+        const locations = Array.isArray(record.locations) ? record.locations : [];
+        const title = "Locations — " + (record.pretty_title || record.title || record.source_name || "Untitled");
+
+        if (!locations.length) {
+          openModal(title, `<div class="mv-card"><div class="mv-card-text">No locations extracted.</div></div>`);
+          return;
+        }
+
+        openModal(title, `
+          <div class="mv-map-layout">
+            <div class="mv-map-list" id="mv-location-list">
+              ${locations.map((loc, idx) => `<button type="button" data-location="${esc(loc)}" class="${idx === 0 ? 'active' : ''}">${esc(loc)}</button>`).join("")}
+            </div>
+            <iframe class="mv-map-frame" id="mv-map-frame" src=""></iframe>
+          </div>
+        `);
+
+        const frame = modalBody.querySelector("#mv-map-frame");
+        const buttons = [...modalBody.querySelectorAll("#mv-location-list button")];
+
+        function setLocation(loc, btn) {
+          frame.src = "https://www.google.com/maps?q=" + encodeURIComponent(loc) + "&output=embed";
+          buttons.forEach(b => b.classList.remove("active"));
+          if (btn) btn.classList.add("active");
+        }
+
+        buttons.forEach(btn => {
+          btn.onclick = () => setLocation(btn.getAttribute("data-location"), btn);
+        });
+
+        setLocation(locations[0], buttons[0]);
+      }
+
+      function openTerms(rowIndex) {
+        const record = records[rowIndex];
+        const terms = Array.isArray(record.terms) ? record.terms : [];
+        const title = "Terms — " + (record.pretty_title || record.title || record.source_name || "Untitled");
+
+        openModal(title,
+          terms.length
+            ? `<div class="mv-grid">${
+                terms.map(t => `
+                  <div class="mv-card">
+                    <div class="mv-card-title">${esc(t.name || "Unnamed term")}</div>
+                    <div class="mv-card-text">${esc(t.definition || "No definition extracted.")}</div>
+                  </div>
+                `).join("")
+              }</div>`
+            : `<div class="mv-card"><div class="mv-card-text">No terms extracted.</div></div>`
+        );
+      }
+
+      function openSignatures(rowIndex) {
+        const record = records[rowIndex];
+        const signatures = Array.isArray(record.signatures) ? record.signatures : [];
+        const title = "Signatures — " + (record.pretty_title || record.title || record.source_name || "Untitled");
+
+        openModal(title,
+          signatures.length
+            ? signatures.map(sig => `
+                <div class="mv-card">
+                  <div class="mv-card-text">${esc(sig)}</div>
+                </div>
+              `).join("")
+            : `<div class="mv-card"><div class="mv-card-text">No signatures extracted.</div></div>`
+        );
+      }
+
+      function toggleParties(rowIndex) {
+        records[rowIndex]._parties_expanded = !records[rowIndex]._parties_expanded;
+        renderRows();
+      }
+
+      function deleteRow(rowIndex) {
+        records.splice(rowIndex, 1);
+        closeModal();
+        renderRows();
+      }
+
+      function exportJson() {
+        const blob = new Blob([JSON.stringify(records, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "metadata_records.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 500);
+      }
+
+      tbody.addEventListener("click", (event) => {
+        const target = event.target.closest("[data-action]");
+        if (!target) return;
+
+        const rowIndex = Number(target.getAttribute("data-row"));
+        const action = target.getAttribute("data-action");
+        const field = target.getAttribute("data-field");
+
+        if (action === "preview") openPreview(rowIndex);
+        if (action === "toggle-parties") toggleParties(rowIndex);
+        if (action === "open-locations") openLocations(rowIndex);
+        if (action === "open-terms") openTerms(rowIndex);
+        if (action === "open-signatures") openSignatures(rowIndex);
+        if (action === "edit-text") openTextEditor(rowIndex, field, field === "pretty_title" ? "Title" : "File name", false);
+        if (action === "edit-list") openTextEditor(rowIndex, field, field === "parties" ? "Parties" : "Locations", true);
+        if (action === "edit-category") openCategoryEditor(rowIndex);
+        if (action === "edit-date") openDateEditor(rowIndex);
+        if (action === "delete-row") deleteRow(rowIndex);
+      });
+
+      closeBtn.onclick = closeModal;
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) closeModal();
+      });
+      exportBtn.onclick = exportJson;
+
+      renderRows();
+    })();
+  </script>
+</div>
